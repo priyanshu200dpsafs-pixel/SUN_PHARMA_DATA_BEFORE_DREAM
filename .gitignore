@@ -1,0 +1,21 @@
+# Data and Models
+raw_data/
+processed_data/
+outputs/
+*.pkl
+*.model
+
+# Python caches
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+ngrok.log
+
+# Frontend (covered by frontend/.gitignore but safe to include here)
+node_modules/
+dist/
