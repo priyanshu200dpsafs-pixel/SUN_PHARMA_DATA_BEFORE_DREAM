@@ -1,5 +1,7 @@
 # Data and Models
-raw_data/
+raw_data/*
+!raw_data/01_geography/
+!raw_data/01_geography/district.gpkg
 outputs/visuals/*.html
 
 # Python caches
