@@ -1,9 +1,6 @@
 # Data and Models
 raw_data/
-processed_data/
-outputs/
-*.pkl
-*.model
+outputs/visuals/*.html
 
 # Python caches
 __pycache__/

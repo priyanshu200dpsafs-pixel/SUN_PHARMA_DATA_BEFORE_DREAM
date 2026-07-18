@@ -1,0 +1,10 @@
+Test,Comparison,Statistic,p-value,Significant
+Shapiro-Wilk (Normality),Overall_MAI vs Normal Dist,0.9950010815230418,0.03552949168530322,Yes
+Kruskal-Wallis,Overall_MAI across Quadrants,483.0148308708817,2.2881199578089495e-104,Yes
+Mann-Whitney U,Emerging vs Watch,11903.0,0.30539535629737824,No
+Mann-Whitney U,Emerging vs Harvest,0.0,1.0794278696650466e-50,Yes
+Mann-Whitney U,Emerging vs Invest Now,0.0,9.238266645656215e-54,Yes
+Mann-Whitney U,Watch vs Harvest,0.0,9.238266645656215e-54,Yes
+Mann-Whitney U,Watch vs Invest Now,0.0,3.099474486191266e-57,Yes
+Mann-Whitney U,Harvest vs Invest Now,9662.0,0.00018526351457218528,Yes
+Mann-Whitney U,Latent_Demand_Gap (Top 20 vs Random 20),400.0,6.78603861673863e-08,Yes

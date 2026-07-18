@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sun Pharma - Connections</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #ffffff; }
+        #map { width: 1200px; height: 800px; background: #ffffff; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+
+        /* Hide Leaflet UI elements for a clean screenshot */
+        .leaflet-control-zoom, .leaflet-control-attribution { display: none !important; }
+
+        /* Animated connection lines */
+        .animated-line {
+            stroke-dasharray: 10 10;
+            animation: dash 3s linear infinite;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: -40; }
+        }
+
+        /* Hub Node (Mumbai) */
+        .hub-node {
+            width: 20px;
+            height: 20px;
+            background-color: #ec4899; /* Pink */
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+            animation: pulse-hub 2s infinite;
+        }
+
+        @keyframes pulse-hub {
+            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(236, 72, 153, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+        }
+
+        /* District Nodes */
+        .district-node {
+            width: 14px;
+            height: 14px;
+            background-color: #4f46e5; /* Indigo */
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7);
+            animation: pulse-district 2s infinite;
+        }
+
+        @keyframes pulse-district {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(79, 70, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+        }
+
+        /* Labels */
+        .city-label {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: none;
+            box-shadow: none;
+            text-shadow: 0px 0px 3px #ffffff;
+            white-space: nowrap;
+            margin-top: 25px; /* offset from marker */
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+    // Initialize map centered on India
+    const map = L.map('map', {
+        center: [22.5, 79.5],
+        zoom: 5.4,
+        zoomControl: false,
+        dragging: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false
+    });
+
+    // Add CartoDB Positron base layer (clean, light, professional grey/white)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19
+    }).addTo(map);
+
+    // Sun Pharma Hub and Top Districts
+    const cities = [
+        { name: "Mumbai (HQ)", coords: [19.0760, 72.8777], isHub: true },
+        { name: "Delhi", coords: [28.7041, 77.1025], isHub: false },
+        { name: "Bangalore", coords: [12.9716, 77.5946], isHub: false },
+        { name: "Hyderabad", coords: [17.3850, 78.4867], isHub: false },
+        { name: "Chennai", coords: [13.0827, 80.2707], isHub: false },
+        { name: "Kolkata", coords: [22.5726, 88.3639], isHub: false },
+        { name: "Ahmedabad", coords: [23.0225, 72.5714], isHub: false },
+        { name: "Pune", coords: [18.5204, 73.8567], isHub: false }
+    ];
+
+    const hub = cities.find(c => c.isHub);
+
+    // Custom icons
+    const hubIcon = L.divIcon({ className: 'hub-node', iconSize: [20, 20], iconAnchor: [10, 10] });
+    const districtIcon = L.divIcon({ className: 'district-node', iconSize: [14, 14], iconAnchor: [7, 7] });
+
+    // Create markers and lines
+    cities.forEach(city => {
+        // Add Marker
+        const marker = L.marker(city.coords, {
+            icon: city.isHub ? hubIcon : districtIcon
+        }).addTo(map);
+
+        // Add Label (using Tooltip attached to marker but permanently open)
+        marker.bindTooltip(city.name, {
+            permanent: true, 
+            direction: 'bottom',
+            className: 'city-label',
+            offset: [0, 5]
+        });
+
+        // Add animated connection line from Hub to this city
+        if (!city.isHub) {
+            const line = L.polyline([hub.coords, city.coords], {
+                color: '#4f46e5',
+                weight: 3,
+                opacity: 0.6,
+                className: 'animated-line'
+            }).addTo(map);
+        }
+    });
+
+</script>
+</body>
+</html>
