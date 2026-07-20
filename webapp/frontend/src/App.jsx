@@ -19,7 +19,8 @@ if ('serviceWorker' in navigator) {
 axios.defaults.headers.common['ngrok-skip-browser-warning'] = '69420';
 axios.defaults.headers.common['Bypass-Tunnel-Reminder'] = 'true';
 
-const API_BASE = '/api';
+// Use environment variable if it exists (for Vercel), otherwise fallback to /api
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Overview');

@@ -207,11 +207,11 @@ def simulate(req: SimulationRequest):
     except IndexError:
         raise HTTPException(status_code=404, detail="District not found")
 
-from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 
 # Serve the static built React app
-app.mount("/", StaticFiles(directory=os.path.join(BASE_DIR, 'webapp/frontend/dist'), html=True), name="static")
+# app.mount("/", StaticFiles(directory=os.path.join(BASE_DIR, 'webapp/frontend/dist'), html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=7860, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
